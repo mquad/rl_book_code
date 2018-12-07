@@ -22,8 +22,8 @@ num_arms = 10
 action_value_mean = 0.0
 action_value_std = 1.0
 reward_sample_std = 1.0
-num_steps = 1000
-num_simulations = 100
+num_steps = 10000
+num_simulations = 1000
 
 # Define the Testbed
 Testbed = partial(
@@ -60,7 +60,7 @@ for epsilon in eps_greedy__epsilon:
 
 # Greedy - Optimistic initialization
 for initial_value in greedy_optim__init_value:
-	print('# Epsilon Greedy (Epsilon={})'.format(epsilon))
+	print('# Optimistic Greedy (initial_value={})'.format(initial_value))
 	# Define the Bandit
 	Bandit = partial(
 		EpsilonGreedyMAB,
@@ -74,7 +74,7 @@ for initial_value in greedy_optim__init_value:
 
 # Gradient based
 for alpha in gradient__alpha:
-	print("Gradient Based (alpha={})".format(alpha))
+	print("# Gradient Based (alpha={})".format(alpha))
 	Bandit = partial(
 		GradientBasedMAB,
 		num_arms=num_arms, 
@@ -107,5 +107,6 @@ plt.xscale('log')
 plt.xlabel('Parameter')
 plt.ylabel('Avg Reward')
 plt.legend()
-plt.show()
+#plt.show()
+plt.savefig('figures/parameter_study_stationary.png')
 

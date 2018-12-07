@@ -15,7 +15,7 @@ def run_sim(Bandit, Testbed, num_simulations, num_steps):
 	simulator = Simulator(Bandit, Testbed, num_simulations=num_simulations, num_steps=num_steps)
 	rewards, optimal_action_picked = simulator.run()
 	# average over the last 100k steps
-	return np.mean(rewards)[:-100000]
+	return np.mean(rewards[:-100000])
 
 SEED = 1234
 
@@ -23,7 +23,7 @@ num_arms = 10
 action_value_mean = 0.0
 action_value_std = 1.0
 reward_sample_std = 1.0
-num_steps = 200000
+num_steps = 200
 num_simulations = 100
 
 # Define the Testbed
@@ -66,7 +66,7 @@ for epsilon in eps_greedy__epsilon:
 
 # Constant step size epsilon greedy
 for epsilon in eps_greedy__epsilon:
-	print('# Epsilon Greedy (Epsilon={})'.format(epsilon))
+	print('# Constnat-step Epsilon Greedy (Epsilon={})'.format(epsilon))
 	# Define the Bandit
 	Bandit = partial(
 		EpsilonGreedyMAB,
@@ -80,7 +80,7 @@ for epsilon in eps_greedy__epsilon:
 
 # Greedy - Optimistic initialization
 for initial_value in greedy_optim__init_value:
-	print('# Epsilon Greedy (Epsilon={})'.format(epsilon))
+	print('# Optimistic Greedy (initial_value={})'.format(initial_value))
 	# Define the Bandit
 	Bandit = partial(
 		EpsilonGreedyMAB,
@@ -94,7 +94,7 @@ for initial_value in greedy_optim__init_value:
 
 # Gradient based
 for alpha in gradient__alpha:
-	print("Gradient Based (alpha={})".format(alpha))
+	print("# Gradient Based (alpha={})".format(alpha))
 	Bandit = partial(
 		GradientBasedMAB,
 		num_arms=num_arms, 
@@ -126,5 +126,5 @@ plt.xscale('log')
 plt.xlabel('Parameter')
 plt.ylabel('Avg Reward')
 plt.legend()
-plt.show()
-
+#plt.show()
+plt.savefig('figures/parameter_study_non_stationary.png')
